@@ -44,11 +44,11 @@ typedef struct {
 #include "DynamicArray.h.def"
 
 static inline void Vec3Array_print(Vec3Array* self) {
-  printf("Vec3Array\n---------\n[");
+  printf("Vec3Array\n---------\n");
   for (size_t i = 0; i < self->size; i++) {
-    printf("(%f %f %f), ", self->data[i].x, self->data[i].y, self->data[i].z);
+    printf("(%f %f %f)\n", self->data[i].x, self->data[i].y, self->data[i].z);
   }
-  printf("]\n\n");
+  printf("\n");
 }
 
 #undef TYPE
