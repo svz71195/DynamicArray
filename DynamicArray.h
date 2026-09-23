@@ -1,11 +1,4 @@
-#pragma once
-
-#include <stdio.h>
-// #include <stddef.h>
-#include <stdint.h>
-#include <stdlib.h>
-
-#define TYPE int32_t
+#define TYPE int
 #define NAME IntArray
 #include "DynamicArray.h.def"
 
@@ -16,9 +9,6 @@ static inline void IntArray_print(IntArray* self) {
   }
   printf("]\n\n");
 }
-
-#undef TYPE
-#undef NAME
 
 #define TYPE double
 #define NAME DoubleArray
@@ -31,9 +21,6 @@ static inline void DoubleArray_print(DoubleArray* self) {
   }
   printf("]\n\n");
 }
-
-#undef TYPE
-#undef NAME
 
 typedef struct {
   double x, y, z;
@@ -51,5 +38,43 @@ static inline void Vec3Array_print(Vec3Array* self) {
   printf("\n");
 }
 
-#undef TYPE
-#undef NAME
+#define ARR_INIT_CAP 4
+
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define array_reserve(self, cap)                                                                            \
+  do {                                                                                                      \
+    if ((cap) > (self)->capacity) {                                                                         \
+      if ((self)->capacity == 0) {                                                                          \
+        (self)->capacity = ARR_INIT_CAP;                                                                    \
+      }                                                                                                     \
+      while ((cap) > (self)->capacity) {                                                                    \
+        (self)->capacity *= 1.5;                                                                            \
+      }                                                                                                     \
+      (self)->data = (typeof((self)->data))realloc((self)->data, (self)->capacity * sizeof(*(self)->data)); \
+      assert((self)->data != nullptr);                                                                      \
+    }                                                                                                       \
+  } while (false)
+
+#define array_free(self)            \
+  do {                              \
+    free((self)->data);             \
+    *(self) = (typeof(*(self))){0}; \
+  } while (false)
+
+#define array_push(self, value)            \
+  do {                                     \
+    array_reserve(self, (self)->size + 1); \
+    (self)->data[(self)->size++] = value;  \
+  } while (false)
+
+#define array_cat(self, other, other_size)                                            \
+  do {                                                                                \
+    array_reserve((self), (self)->size + (other_size));                               \
+    memcpy((self)->data + (self)->size, other, (other_size) * sizeof(*(self)->data)); \
+    (self)->size += (other_size);                                                     \
+  } while (false)
+
+#define array_pop(self) (self)->data[assert((self)->size > 0, --(self)->size)]

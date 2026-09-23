@@ -1,4 +1,3 @@
-
 #ifndef TYPE
 #error "TYPE must be defined before including 'DynamicArray.h.def'"
 #endif
@@ -7,93 +6,11 @@
 #error "NAME must be defined before including 'DynamicArray.h.def'"
 #endif
 
-#define CAT_(a, b) a##b
-#define CAT(a, b) CAT_(a, b)
-
 typedef struct {
   TYPE* data;       // Pointer to the array of elements
   size_t size;      // Current number of elements in the array
   size_t capacity;  // Maximum number of elements the array can hold
 } NAME;
 
-#define init    CAT(NAME, _init)
-#define destroy CAT(NAME, _free)
-#define resize  CAT(NAME, _resize)
-#define push    CAT(NAME, _push)
-#define get     CAT(NAME, _get)
-#define set     CAT(NAME, _set)
-// #define print   CAT(NAME, _print)
-
-
-static inline bool init(NAME *self, size_t new_cap) {
-    if (new_cap == 0) {
-        new_cap = 2;
-    }
-
-    *self = (NAME){
-      .data = malloc(new_cap * sizeof(TYPE)),
-      .size = 0,
-      .capacity = new_cap,
-  };
-
-  return !(self->data == nullptr);
-}
-
-static inline void destroy(NAME *self) {
-    free(self->data);
-    *self = (NAME){0}; // reset struct to zero
-}
-
-static inline bool resize(NAME *self, size_t new_cap) {
-    if (new_cap <= self->size) {
-        new_cap = self->size + 1;
-    }
-
-    TYPE *new_data = realloc(self->data, new_cap * sizeof(TYPE));
-    if (!new_data) {
-        fprintf(stderr, "Memory allocation failed while resizing array");
-        return false;
-    }
-    self->data = new_data;
-    self->capacity = new_cap;
-    
-    return true;
-}
-
-static inline void push(NAME *self, TYPE val) {
-    bool status = true;
-    if (self->size >= self->capacity) {
-        status = resize(self, self->capacity * 1.5);
-    }
-    if (status) {
-        self->data[self->size++] = val;
-    } else {
-        return;
-    }
-}
-
-static inline TYPE get(NAME *self, size_t index) {
-    if (index >= self->size) {
-        return (TYPE){0};
-    }
-    return self->data[index];
-}
-
-static inline bool set(NAME *self, size_t index, TYPE val) {
-    if (index >= self->size) {
-        return false;
-    }
-    self->data[index] = val;
-}
-
-
-#undef init
-#undef free
-#undef resize
-#undef push
-#undef get
-#undef set
-
-#undef CAT_
-#undef CAT
- 
+#undef TYPE
+#undef NAME
