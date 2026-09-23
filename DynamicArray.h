@@ -1,6 +1,6 @@
 #define TYPE int
 #define NAME IntArray
-#include "DynamicArray.h.def"
+#include "DynamicArray.def"
 
 static inline void IntArray_print(IntArray* self) {
   printf("IntArray\n---------\n[");
@@ -12,7 +12,7 @@ static inline void IntArray_print(IntArray* self) {
 
 #define TYPE double
 #define NAME DoubleArray
-#include "DynamicArray.h.def"
+#include "DynamicArray.def"
 
 static inline void DoubleArray_print(DoubleArray* self) {
   printf("DoubleArray\n---------\n[");
@@ -28,7 +28,7 @@ typedef struct {
 
 #define TYPE Vec3
 #define NAME Vec3Array
-#include "DynamicArray.h.def"
+#include "DynamicArray.def"
 
 static inline void Vec3Array_print(Vec3Array* self) {
   printf("Vec3Array\n---------\n");
