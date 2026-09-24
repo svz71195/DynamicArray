@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS ?= -std=c23 -O2 -Wall -Wextra -I.
+CFLAGS ?= -std=c2x -O2 -Wall -Wextra -I.
 TARGET = test_dynamic_array.out
 
 .PHONY: test clean
