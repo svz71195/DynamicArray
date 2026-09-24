@@ -77,4 +77,9 @@ static inline void Vec3Array_print(Vec3Array* self) {
     (self)->size += (other_size);                                                     \
   } while (false)
 
-#define array_pop(self) (self)->data[assert((self)->size > 0, --(self)->size)]
+#define array_pop(self)     \
+  do {                      \
+    if ((self)->size > 0) { \
+      --(self)->size;       \
+    }                       \
+  } while (false)
