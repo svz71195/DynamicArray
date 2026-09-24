@@ -1,3 +1,5 @@
+#pragma once
+
 #define TYPE int
 #define NAME IntArray
 #include "DynamicArray.def"
