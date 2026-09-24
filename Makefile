@@ -1,6 +1,6 @@
-CC = gcc-16
+CC = gcc
 CFLAGS ?= -std=c23 -O2 -Wall -Wextra -I.
-TARGET = test_dynamic_array
+TARGET = test_dynamic_array.out
 
 .PHONY: test clean
 
